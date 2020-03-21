@@ -1,0 +1,53 @@
+@media(min-width: 300px){
+
+}
+
+
+@media(min-width: 1200px){
+
+    #mainMaster{
+        position: absolute;
+        background-size: cover;
+        
+        min-width: 100%;
+        min-height: 100%;
+        background: rgba(138, 174, 209, 0.5);
+    }
+    
+    #cabecalhoMaster{
+        
+        min-height: 150px;
+        background: rgba(27, 78, 128, 0.9);
+        color: white;
+    }
+
+    #navMaster{
+        background-color: white;
+        min-height: 60px;
+        align-items: center;
+        text-align: center;
+        
+    }
+    #navMasterColForm{
+      margin-left: 100px;
+    }
+
+
+    #containerPadrao{
+        min-width: 70%;
+        max-height: 650px;
+        margin-top: 60px;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    #btnBuscaTotal{
+        min-width: 200px;
+        min-height: 40px;
+        text-align: center;
+    }
+    #tabelaPaciente{
+
+        margin: 10px;
+    }
+    
+}

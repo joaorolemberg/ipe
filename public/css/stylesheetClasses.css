@@ -1,0 +1,36 @@
+@media(min-width: 300px){
+
+
+}
+
+
+@media(min-width: 1200px){
+    .labelPadrao{
+        font-size: 1.5em;
+        color: rgba(27, 78, 128);
+    }
+
+    
+    .form-padrao{
+        padding-left: 30px;
+        padding-top: 30px;
+    }
+
+    .h1Padrao{
+        color: rgba(27, 78, 128);
+        text-align: center;
+        padding-top: 20px;
+        font-size: 3em;
+    }
+
+    .h3Padrao{
+        color: rgba(27, 78, 128);
+        text-align: center;
+    }
+
+    .form1{
+        max-width: 60%;
+    }
+
+
+}
