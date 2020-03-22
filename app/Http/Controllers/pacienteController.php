@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 
 class pacienteController extends Controller
 {
     //
     public function buscaProntuario(Request $request ){
-        dd($request->all());
+        
+        try{
+      
+            return redirect()->route('confirmar', ['prontuario' => $request->get('prontuario')]);
+
+        }catch(Exception $e){
+
+        }
+        
+        //dd($request->all());
         
 
     }
@@ -209,5 +219,28 @@ class pacienteController extends Controller
         //return view('tabelaPacientes');
         
 
+    }
+
+    public function confirmacao(Request $request ){
+        $data = DB::select('
+            select ap.prontuario,ap.nome,ap.nome_mae,
+            ap.dt_nascimento,ap.cpf,ap.rg,ap.nro_cartao_saude
+            from agh.aip_pacientes as ap
+            where ap.prontuario=?    ',[$request->get('prontuario')]);
+
+        return view('confirmaPaciente',['data'=>$data]);
+
+    }   
+    public function consultaTotal(Request $request ){
+        $data1 = DB::select('select ap.prontuario,ap.nome,ap.nome_social, ap.nome_mae, ap.dt_nascimento,ap.dt_identificacao,ap.sexo,ap.sexo_biologico, ap.cpf,
+			  ap.rg,ap.orgao_emis_rg,ap.nro_cartao_saude, ap.ind_paciente_vip,ap.nome_pai,ap.email,ap.naturalidade,ap.estado_civil,ap.ddd_fone_residencial,
+			  ap.fone_residencial,ap.ddd_fone_recado,ap.fone_recado, ap.observacao,ap.dt_ult_internacao,ap.dt_ult_alta ,ap.dt_obito ,ap.dt_obito_externo ,
+			  ap.tipo_data_obito,ai.doc_obito 
+			  from agh.aip_pacientes as ap
+			  left join agh.ain_internacoes as ai on (ai.pac_codigo=ap.codigo) 
+			  where ap.prontuario=?',[$request->get('prontuario')]);
+
+        return view('homePaciente',['data'=>$data1]);
+        dd($request->all());
     }
 }

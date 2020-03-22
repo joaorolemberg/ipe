@@ -9,6 +9,26 @@
         font-size: 1.5em;
         color: rgba(27, 78, 128);
     }
+    .labelPadraoMedio{
+        font-size: 2em;
+        color: rgba(27, 78, 128);
+    }
+    .labelPadraoGrande{
+        font-size: 2.5em;
+        color: rgba(27, 78, 128);
+        text-align: center;
+    }
+
+    .labelPadraoMedioBlack{
+        font-size: 2em;
+        color: black;
+    }
+
+    .labelPadraoGrandeBlack{
+        font-size: 2.5em;
+        color: black;
+        text-align: center;
+    }
 
     
     .form-padrao{

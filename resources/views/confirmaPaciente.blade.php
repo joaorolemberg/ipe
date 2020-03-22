@@ -10,18 +10,39 @@
 <div class="container overflow-auto" id="containerPadrao">
         
     <div class="row">
-        <div class="col-xl-12">
+        <div class="col-xl-12" style="text-align: center">
             @forelse ($data as $paciente)
-                <label> Prontuário: {{$paciente->prontuario ?? null}}</label>
-                <label>Nome: {{$paciente->nome ?? null}}</label>
-                <label>Nome da mãe: {{$paciente->nome_mae ?? null}}</label>
-                <label>Data de nascimento: {{$paciente->dt_nascimento ?? null}}</label>
-                <label>Número do SUS: {{$paciente->nro_cartao_saude ?? null}} </label>
-                <label>CPF: {{$paciente->cpf ?? null}}</label>
-                <label>RG: {{$paciente->rg ?? null}}</label>
+                <h1 class="h1Padrao">{{$paciente->nome ?? null}}</h1>
+                <br>
+                <label class="labelPadraoGrande">Prontuário:</label>
+                <label class="labelPadraoGrandeBlack" >{{$paciente->prontuario ?? null}}</label>
+                <br>
+                <label class="labelPadraoGrande">Nome da mãe: </label>
+                <label class="labelPadraoGrandeBlack">{{$paciente->nome_mae ?? null}}</label>
+                <br>
+                <label class="labelPadraoGrande">Data de nascimento: </label>
+                <label class="labelPadraoGrandeBlack">{{$paciente->dt_nascimento ?? null}}</label>
+                <br>
+                <label class="labelPadraoGrande">Número do SUS: </label>
+                <label class="labelPadraoGrandeBlack">{{$paciente->nro_cartao_saude ?? null}} </label>
+                <br>
+                <label class="labelPadraoGrande">CPF: </label>
+                <label class="labelPadraoGrandeBlack">{{$paciente->cpf ?? null}}</label>
+                <br>
+                <label class="labelPadraoGrande">RG: </label>
+                <label class="labelPadraoGrandeBlack">{{$paciente->rg ?? null}}</label>
+                {!! Form::open(['method'=> 'post','class'=> 'form-padrao'])!!}
+                    {!! Form:: hidden('prontuario',$paciente->prontuario)!!}
+                    <div style="text-align: center">
+                        {!!Form::submit('Confirmar',['id'=>'btnBuscaTotal','class'=>'btn btn-outline-success my-2 my-sm-0']) !!}
+                    </div>
+                    
+                {!! Form::close() !!}
+                <br>
+
             @empty
                 <h1 class="h1Padrao">Prontuário não encontrado</h1>
-                <h3 class="h3Padrap">Número de prontuário errado ou o paciente não está cadastrado</h3>
+                <h3 class="h3Padrao">Número de prontuário errado ou o paciente não está cadastrado</h3>
             @endforelse
 
         </div>

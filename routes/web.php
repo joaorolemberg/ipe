@@ -27,3 +27,7 @@ Route::get('/buscarPacientes', ['as'=>'buscar',function(){
 }]);
 Route::put('/buscarPacientes', ['as'=>'buscar','uses'  => 'pacienteController@buscaProntuario']);
 Route::post('/buscarPacientes', ['as'=>'home','uses'  => 'pacienteController@buscaGeral']);
+
+Route::get('/confirmar', ['as'=>'confirmar','uses'  => 'pacienteController@confirmacao']);
+Route::put('/confirmar', ['as'=>'confirmar','uses'  => 'pacienteController@buscaProntuario']);
+Route::post('/confirmar', ['as'=>'confirmar','uses'  => 'pacienteController@consultaTotal']);
