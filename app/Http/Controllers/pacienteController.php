@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Exception;
-use PhpParser\Node\Stmt\TryCatch;
+use DateTime;
+
 
 class pacienteController extends Controller
 {
@@ -232,15 +233,49 @@ class pacienteController extends Controller
 
     }   
     public function consultaTotal(Request $request ){
-        $data1 = DB::select('select ap.prontuario,ap.nome,ap.nome_social, ap.nome_mae, ap.dt_nascimento,ap.dt_identificacao,ap.sexo,ap.sexo_biologico, ap.cpf,
+        $data1 = DB::select('select ap.prontuario,ap.nome,ap.nome_social, ap.nome_mae, ap.dt_nascimento::date,ap.dt_identificacao,ap.sexo,ap.sexo_biologico, ap.cpf,
 			  ap.rg,ap.orgao_emis_rg,ap.nro_cartao_saude, ap.ind_paciente_vip,ap.nome_pai,ap.email,ap.naturalidade,ap.estado_civil,ap.ddd_fone_residencial,
-			  ap.fone_residencial,ap.ddd_fone_recado,ap.fone_recado, ap.observacao,ap.dt_ult_internacao,ap.dt_ult_alta ,ap.dt_obito ,ap.dt_obito_externo ,
+			  ap.fone_residencial,ap.ddd_fone_recado,ap.fone_recado, ap.observacao,ap.dt_ult_internacao::date,ap.dt_ult_alta::date ,ap.dt_obito::date ,ap.dt_obito_externo ,
 			  ap.tipo_data_obito,ai.doc_obito 
 			  from agh.aip_pacientes as ap
 			  left join agh.ain_internacoes as ai on (ai.pac_codigo=ap.codigo) 
-			  where ap.prontuario=?',[$request->get('prontuario')]);
+              where ap.prontuario=?',[$request->get('prontuario')]);
+            
+        $dtnasc=$data1[0]->dt_nascimento;
+        $formato1 = new DateTime($dtnasc);
+        $data1[0]->dt_nascimento=$formato1->format('d-m-Y'); 
+        
+        $dtInternacao=$data1[0]->dt_ult_internacao;
+        $formato2 = new DateTime($dtInternacao);
+        $data1[0]->dt_ult_internacao=$formato2->format('d-m-Y'); 
 
-        return view('homePaciente',['data'=>$data1]);
+        $dtAlta=$data1[0]->dt_ult_alta;
+        $formato3 = new DateTime($dtAlta);
+        $data1[0]->dt_ult_alta=$formato3->format('d-m-Y'); 
+
+        $dtObito=$data1[0]->dt_obito;
+        if( $dtObito!=null){
+            $formato4 = new DateTime($dtObito);
+            $data1[0]->dt_obito=$formato4->format('d-m-Y');
+        }
+        $data2=DB::select('
+        
+            select ap.prontuario,ap.nome,ap.nome_social,servidor.nome as medico,ai.dthr_internacao,
+                    ai.dt_prev_alta,ai.dthr_alta_medica,ai.dt_saida_paciente,ai.dthr_primeiro_evento,
+                    ai.dthr_ultimo_evento,ai.justificativa_alt_del,ai.apo_seq,ai.dthr_aviso_samis,
+                    ai.dthr_prontuario_buscado,au.sigla,au.descricao,au.andar,au.ind_ala,
+                    al.qrt_numero,al.leito
+			  from agh.ain_internacoes as ai 
+			  left join agh.aip_pacientes as ap on (ai.pac_codigo=ap.codigo)
+			  left join (select ser_matricula_cadastro,nome
+			  from agh.aip_pacientes) as servidor 
+			  on(servidor.ser_matricula_cadastro=ai.ser_matricula_digita)
+			  left join agh.ain_leitos as al on(al.lto_id=ai.lto_lto_id)
+		          left join agh.agh_unidades_funcionais as au on(au.unf_seq=al.unf_seq)		          
+	                  where ap.prontuario=?',[$request->get('prontuario')]);
+
+        return view('homePaciente',['data'=>$data1,
+                                    'data2'=>$data2]);
         dd($request->all());
     }
 }
